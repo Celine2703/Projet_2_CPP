@@ -108,9 +108,8 @@ void Menu::display_menu()
 
 void Menu::Show() 
 {
-    std::cout << "Enter Account Number: ";
     std::string account_number;
-    std::cin >> account_number;
+    account_number = demanderNombreEtVerifier("Enter Account Number: ");
     std::cout << "Enter First Name: ";
     std::string firstname;
     std::cin >> firstname;
@@ -189,9 +188,8 @@ void Menu::ShowAll() {
 
 
 void Menu::Search() {
-    std::cout << "Enter Account Number: ";
     std::string account_number;
-    std::cin >> account_number;
+    account_number = demanderNombreEtVerifier("Enter Account Number: ");
     int fichier = 0;
 
     while(this->get_number_of_records() >= 0 && fichier < this->get_number_of_records())

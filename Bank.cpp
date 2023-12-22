@@ -65,7 +65,7 @@ Bank Bank::Add(int number_of_records) {
 }
 
 void Bank::Edit() {
-    std::cout << "Enter Account Number: ";
+    std::cout << "Enter File ID : ";
     int fichier;
     std::cin >> fichier;
     std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
@@ -78,14 +78,16 @@ void Bank::Edit() {
     }
 
     std::string line;
+    std::string lastname;
+    std::string firstname;
     std::getline(infile, line);
     std::cout << "Account Number: " << line << std::endl;
     std::string AccountNumber = line;
     std::getline(infile, line);
     std::cout << "First Name: " << line << std::endl;
-    std::getline(infile, line);
+    std::getline(infile, lastname);
     std::cout << "Last Name: " << line << std::endl;
-    std::getline(infile, line);
+    std::getline(infile, firstname);
     std::cout << "Telephone: " << line << std::endl;
     std::getline(infile, line);
     std::cout << "Balance: " << line << std::endl;
@@ -94,12 +96,6 @@ void Bank::Edit() {
 
     std::cout << "\n\nEnter New Data: " << std::endl;
 
-    std::cout << "Enter First Name: ";
-    std::string firstname;
-    std::cin >> firstname;
-    std::cout << "Enter Last Name: ";
-    std::string lastname;
-    std::cin >> lastname;
     std::cout << "Enter Telephone Number: ";
     int telephone;
     std::cin >> telephone;
@@ -128,7 +124,7 @@ void Bank::Edit() {
 }
 
 void Bank::Delete() {
-    std::cout << "Enter Account Number: ";
+    std::cout << "Enter File ID : ";
     int fichier;
     std::cin >> fichier;
     std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
