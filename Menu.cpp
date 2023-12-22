@@ -72,7 +72,11 @@ void Menu::display_menu()
     std::cout << "7-->Quit" << std::endl;
     std::cout << std::endl;
 
+
     choice = atoi(demanderNombreEtVerifier("Enter your choice: ").c_str());
+    while (choice < 1 && choice >= 7)
+            choice = atoi(demanderNombreEtVerifier("Enter your choice: ").c_str());
+
     std::cout << std::endl;
 
     switch (choice)
