@@ -7,15 +7,17 @@ Bank::Bank()
     account_number = 0;
     telephone = 0;
     balance = 0;
+    id_record = -1;
 }
 
-Bank::Bank(std::string firstname, std::string lastname, int account_number, int telephone, float balance)
+Bank::Bank(std::string firstname, std::string lastname, int account_number, int telephone, double balance, int id_record)
 {
     this->firstname = firstname;
     this->lastname = lastname;
     this->account_number = account_number;
     this->telephone = telephone;
     this->balance = balance;
+    this->id_record = id_record;
 }
 
 Bank::~Bank() {}
@@ -40,7 +42,7 @@ void Bank::set_telephone(int telephone)
     this->telephone = telephone;
 }
 
-void Bank::set_balance(float balance)
+void Bank::set_balance(double balance)
 {
     this->balance = balance;
 }
@@ -65,16 +67,26 @@ int Bank::get_telephone()
     return telephone;
 }
 
-float Bank::get_balance()
+double Bank::get_balance()
 {
     return balance;
 }
 
-void Bank::Add()
+int Bank::get_id_record()
 {
-    Bank bank;
-    std::ofstream outfile;
-    outfile.open("record.bank", std::ios::binary | std::ios::app);
+    return id_record;
+}
+
+Bank Bank::Add(int number_of_records) {
+    std::ofstream outfile("record.bank" + number_of_records, std::ios::binary | std::ios::app);
+
+    if (!outfile) {
+        std::cerr << "Error opening file for writing." << std::endl;
+        return Bank();
+    }
+
+    Bank bank;  // Créez une instance locale de Bank
+
     std::cout << "Enter Account Number: ";
     std::cin >> bank.account_number;
     std::cout << "Enter First Name: ";
@@ -85,6 +97,36 @@ void Bank::Add()
     std::cin >> bank.telephone;
     std::cout << "Enter Balance: ";
     std::cin >> bank.balance;
+
+    // Écriture de l'objet Bank actuel dans le fichier
     outfile.write(reinterpret_cast<char *>(&bank), sizeof(Bank));
+
     outfile.close();
+
+    return bank;
+}
+
+void Bank::Show() {
+    std::ifstream infile("record.bank", std::ios::binary);
+
+    if (!infile) {
+        std::cerr << "Error opening file for reading." << std::endl;
+        return;
+    }
+
+    Bank bank;  // Créez une instance locale de Bank
+
+    std::cout << "\n****Data from file****" << std::endl;
+
+    // Lecture de l'objet Bank actuel dans le fichier
+    while (infile.read(reinterpret_cast<char *>(&bank), sizeof(Bank))) {
+        std::cout << "Account Number: " << bank.account_number << std::endl;
+        std::cout << "First Name: " << bank.firstname << std::endl;
+        std::cout << "Last Name: " << bank.lastname << std::endl;
+        std::cout << "Telephone Number: " << bank.telephone << std::endl;
+        std::cout << "Balance: " << bank.balance << std::endl;
+        std::cout << std::endl;
+    }
+
+    infile.close();
 }

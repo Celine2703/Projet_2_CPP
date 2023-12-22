@@ -18,6 +18,21 @@ int Menu::get_choice()
     return choice;
 }
 
+void Menu::set_number_of_records(int number_of_records)
+{
+    this->number_of_records = number_of_records;
+}
+
+int Menu::get_number_of_records()
+{
+    return number_of_records;
+}
+
+void Menu::increment_number_of_record()
+{
+    ++number_of_records;
+}
+
 void Menu::display_menu()
 {
     std::cout << "***Acount Information System***" << std::endl;
@@ -34,23 +49,23 @@ void Menu::display_menu()
     switch (choice)
     {
     case 1:
-        Add();
+        Bank::Add(number_of_records);
         break;
-    case 2:
-        Show();
-        break;
-    case 3:
-        Search();
-        break;
-    case 4:
-        Edit();
-        break;
-    case 5:
-        Delete();
-        break;
-    case 6:
-        std::cout << "Thank you for using our system" << std::endl;
-        break;
+    // case 2:
+    //     Show();
+    //     break;
+    // case 3:
+    //     Search();
+    //     break;
+    // case 4:
+    //     Edit();
+    //     break;
+    // case 5:
+    //     Delete();
+    //     break;
+    // case 6:
+    //     std::cout << "Thank you for using our system" << std::endl;
+    //     break;
     default:
         std::cout << "Wrong choice" << std::endl;
         break;

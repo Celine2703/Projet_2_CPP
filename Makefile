@@ -1,4 +1,4 @@
-SRCS = main.cpp Bank.cpp
+SRCS = main.cpp Bank.cpp Menu.cpp
 
 HEAD = Bank.hpp
 
