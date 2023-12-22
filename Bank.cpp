@@ -4,9 +4,9 @@ Bank::Bank()
 {
     firstname = "";
     lastname = "";
-    account_number = 0;
-    telephone = 0;
-    balance = 0;
+    account_number = "";
+    telephone = "";
+    balance = "";
     id_record = -1;
 }
 
@@ -22,61 +22,6 @@ Bank::Bank(std::string firstname, std::string lastname, int account_number, int 
 
 Bank::~Bank() {}
 
-void Bank::set_firstname(std::string firstname)
-{
-    this->firstname = firstname;
-}
-
-void Bank::set_lastname(std::string lastname)
-{
-    this->lastname = lastname;
-}
-
-void Bank::set_account_number(int account_number)
-{
-    this->account_number = account_number;
-}
-
-void Bank::set_telephone(int telephone)
-{
-    this->telephone = telephone;
-}
-
-void Bank::set_balance(double balance)
-{
-    this->balance = balance;
-}
-
-std::string Bank::get_firstname()
-{
-    return firstname;
-}
-
-std::string Bank::get_lastname()
-{
-    return lastname;
-}
-
-int Bank::get_account_number()
-{
-    return account_number;
-}
-
-int Bank::get_telephone()
-{
-    return telephone;
-}
-
-double Bank::get_balance()
-{
-    return balance;
-}
-
-int Bank::get_id_record()
-{
-    return id_record;
-}
-
 Bank Bank::Add(int number_of_records) {
     // Convertir le nombre d'enregistrements en une chaîne de caractères
     std::string record_suffix = std::to_string(number_of_records);
@@ -84,7 +29,6 @@ Bank Bank::Add(int number_of_records) {
     // Créer le nom du fichier en ajoutant la chaîne de caractères au nom de base
     std::string filename = "./bank_records/record_" + record_suffix + ".txt";
 
-    // Ouvrir le fichier en mode binaire
     std::ofstream outfile(filename);
 
     if (!outfile) {
@@ -92,7 +36,7 @@ Bank Bank::Add(int number_of_records) {
         return Bank();
     }
 
-    Bank bank;  // Créez une instance locale de Bank
+    Bank bank;
 
     std::cout << "Enter Account Number: ";
     std::cin >> bank.account_number;

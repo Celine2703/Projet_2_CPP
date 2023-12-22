@@ -10,9 +10,9 @@ class Bank
 private:
     std::string firstname;
     std::string lastname;
-    int account_number;
-    int telephone;
-    double balance;
+    std::string account_number;
+    std::string telephone;
+    std::string balance;
     int id_record;
 public:
     Bank();

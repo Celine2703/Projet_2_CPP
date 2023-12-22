@@ -60,7 +60,7 @@ void Menu::Init() {
 
 void Menu::display_menu()
 {
-    std::cout << "***Acount Information System***" << std::endl;
+    std::cout << "***Account Information System***" << std::endl;
     std::cout << std::endl;
     std::cout << "Select one option below" << std::endl;
     std::cout << "1-->Add record to file" << std::endl;
