@@ -65,7 +65,7 @@ Bank Bank::Add(int number_of_records) {
 }
 
 void Bank::Edit() {
-    std::cout << "Enter File ID : ";
+    std::cout << "Enter File ID: ";
     int fichier;
     std::cin >> fichier;
     std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
@@ -123,7 +123,7 @@ void Bank::Edit() {
     outfile.close();
 }
 
-void Bank::Delete() {
+int Bank::Delete() {
     std::cout << "Enter File ID : ";
     int fichier;
     std::cin >> fichier;
@@ -134,7 +134,7 @@ void Bank::Delete() {
     if (!infile) {
         std::cerr << "Error opening file for reading." << std::endl;
         std::cin.clear(); 
-        return;
+        return 0;
     }
 
     std::string line;
@@ -159,8 +159,10 @@ void Bank::Delete() {
     if(choice == 'y' || choice == 'Y') {
         std::remove(filename.c_str());
         std::cout << "Record deleted successfully." << std::endl;
+        return 1;
     }
     else {
         std::cout << "File no deleted." << std::endl;
+        return 0;
     }
 }

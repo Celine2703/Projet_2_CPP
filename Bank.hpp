@@ -22,7 +22,7 @@ public:
 
     static Bank Add(int);
     static void Edit();
-    static void Delete();
+    static int Delete();
 };
 
 #endif

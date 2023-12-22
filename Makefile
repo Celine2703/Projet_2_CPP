@@ -6,7 +6,7 @@ OBJS = $(SRCS:.cpp=.o)
 
 NAME = bank
 
-CC = c++ -Wall -Wextra -Werror -Iincludes
+CC = c++ -Wall -Wextra -Werror -g
 
 all: $(NAME)
 

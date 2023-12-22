@@ -72,10 +72,18 @@ void Menu::display_menu()
     std::cout << "7-->Quit" << std::endl;
     std::cout << std::endl;
 
-
     choice = atoi(demanderNombreEtVerifier("Enter your choice: ").c_str());
-    while (choice < 1 && choice >= 7)
+    if (std::cin.eof()) {
+        std::cout << "Thank you for using our system" << std::endl;
+        exit(0);
+    }
+    while (choice < 1 || choice > 7) {
             choice = atoi(demanderNombreEtVerifier("Enter your choice: ").c_str());
+            if (std::cin.eof()) {
+                std::cout << "Thank you for using our system" << std::endl;
+                exit(0);
+            }
+    }
 
     std::cout << std::endl;
 
@@ -95,7 +103,7 @@ void Menu::display_menu()
         Bank::Edit();
         break;
     case 5:
-        Bank::Delete();
+        this->set_number_of_records(this->get_number_of_records() - Bank::Delete());
         break;
     case 6:
         ShowAll();
@@ -119,14 +127,15 @@ void Menu::Show()
     std::string lastname;
     lastname = demanderStringEtVerifier("Enter Last Name: ");
     int fichier = 0;
-
+    int compteur_fichier = 0;
     while(this->get_number_of_records() >= 0 && fichier < this->get_number_of_records())
     {
-        std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
+        std::string filename = "./bank_records/record_" + std::to_string(compteur_fichier) + ".txt";
         std::ifstream infile(filename);
         std::cout << std::endl;
 
         if (!infile) {
+            fichier++;
             continue;
         }
 
@@ -158,13 +167,14 @@ void Menu::Show()
 void Menu::ShowAll() {
 
     int fichier = 0;
-
+    int compteur_fichier = 0;
     while(this->get_number_of_records() >= 0 && fichier < this->get_number_of_records())
     {
-        std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
+        std::string filename = "./bank_records/record_" + std::to_string(compteur_fichier) + ".txt";
         std::ifstream infile(filename);
+        compteur_fichier++;
 
-         if (!infile) {
+        if (!infile) {
             continue;
         }
 
@@ -185,75 +195,70 @@ void Menu::ShowAll() {
 
         infile.close();
         fichier++;
-    }
+      }
 }
 
 
 void Menu::Search() {
-    std::string account_number;
-    std::cout << "Entrer un Account Number: "<< std::endl;
-    std::cin >> account_number;
-    int fichier = 0;
+    static int firsttry = 0;
 
-    while(this->get_number_of_records() >= 0 && fichier < this->get_number_of_records())
-    {
-        std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
-        std::ifstream infile(filename);
-        std::cout << std::endl;
-
-        if (!infile) {
-            continue;
-        }
-
-        std::string line;
-        std::getline(infile, line);
-
-        if (line == account_number) {
-            std::cout << "Account Number: " << line << std::endl;
-            std::getline(infile, line);
-            std::cout << "First Name: " << line << std::endl;
-            std::getline(infile, line);
-            std::cout << "Last Name: " << line << std::endl;
-            std::getline(infile, line);
-            std::cout << "Telephone: " << line << std::endl;
-            std::getline(infile, line);
-            std::cout << "Balance: " << line << std::endl;
-        }
-
-        infile.close();
-        fichier++;
-
+    if (firsttry == 0) {
+        firsttry++;
+        std::cout << "number of records: " << this->get_number_of_records() << std::endl;
+        return;
+    }
+    std::string register_id;
+    register_id = demanderNombreEtVerifier("Enter File ID: ");
+    
+    std::string filename = "./bank_records/record_" + register_id + ".txt";
+    std::ifstream infile(filename);
+    std::cout << std::endl;
+    if (!infile) {
+        std::cerr << "Erreur d'ouverture ! Fichier introuvable!!" << std::endl;
+        return;
     }
 
+    std::string line;
+    std::getline(infile, line);
+    std::cout << "Account Number: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "First Name: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Last Name: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Telephone: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Balance: " << line << std::endl;
+    std::cout << std::endl;
+
+
+    infile.close();
 }
 
+
 std::string Menu::demanderNombreEtVerifier(std::string message) {
-    while (true) {
+    std::cout << message;
+    while (!std::cin.eof()) {
         std::string saisie;
-        std::cout << message;
         if (std::getline(std::cin, saisie)) {
-            if (std::all_of(saisie.begin(), saisie.end(), ::isdigit)) {
+            if (saisie.size() > 0 && std::all_of(saisie.begin(), saisie.end(), ::isdigit)) {
                 return saisie;
             }
-        } else {
-            if (std::cin.eof()) {
-                // Réinitialisation de cin en cas de Ctrl+D
-                std::cin.clear(); // Efface le drapeau EOF
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore le dernier caractère dans le buffer (EOF)
-                std::cout << "Entrée annulée. Veuillez réessayer.\n";
-            } else {
-                std::cerr << "Erreur de saisie. Réessayez.\n";
+        }
+        else {
+                if (!std::cin.eof())
+                    std::cerr << "Erreur de saisie. Réessayez.\n";
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore le reste de la ligne
-            }
         }
     }
+    return "";
 }
 
 std::string Menu::demanderStringEtVerifier(std::string message) {
     std::string saisie;
 
-    while (true) {
+    while (!std::cin.eof()) {
         std::cout << message;
         if (std::getline(std::cin, saisie)) {
             // Vérifie si l'entrée n'est pas vide
@@ -261,17 +266,11 @@ std::string Menu::demanderStringEtVerifier(std::string message) {
                 return saisie;
             }
         } else {
-            if (std::cin.eof()) {
-                // Ctrl+D pressé, réinitialise l'état de cin et ignore l'entrée actuelle
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cout << "Entrée annulée. Veuillez réessayer.\n";
-            } else {
                 // Erreur de saisie, réinitialise l'état de cin et ignore l'entrée actuelle
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Erreur de saisie. Veuillez réessayer.\n";
-            }
         }
     }
+    return "";
 }
