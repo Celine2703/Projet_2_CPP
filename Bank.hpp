@@ -33,7 +33,7 @@ public:
     static Bank Add(int);
     static void Search();
     static void Edit();
-    void Delete();
+    static void Delete();
 };
 
 #endif

@@ -182,3 +182,81 @@ void Bank::Edit() {
 
     outfile.close();
 }
+
+void Bank::Delete() {
+    std::cout << "Enter Account Number: ";
+    int fichier;
+    std::cin >> fichier;
+    std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
+    std::ifstream infile(filename);
+    std::cout << std::endl;
+
+    if (!infile) {
+        std::cerr << "Error opening file for reading." << std::endl;
+        return;
+    }
+
+    std::string line;
+    std::getline(infile, line);
+    std::cout << "Account Number: " << line << std::endl;
+    std::string AccountNumber = line;
+    std::getline(infile, line);
+    std::cout << "First Name: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Last Name: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Telephone: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Balance: " << line << std::endl;
+
+    infile.close();
+
+    std::cout << "\n\nAre you sure you want to delete this record? (y/n): ";
+    char choice;
+    std::cin >> choice;
+
+    if(choice == 'y') {
+        std::remove(filename.c_str());
+        std::cout << "Record deleted successfully." << std::endl;
+    }
+}
+
+void Bank::Search() {
+    std::cout << "Enter Account Number: ";
+    int account_number;
+    std::cin >> account_number;
+    int fichier = 0;
+
+    while(this->get_number_of_records() >= 0 && fichier < this->get_number_of_records())
+    {
+        std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
+        std::ifstream infile(filename);
+        std::cout << std::endl;
+
+        if (!infile) {
+            continue;
+        }
+
+
+
+    }
+
+
+    std::string line;
+    std::getline(infile, line);
+    if (line == account_number) {
+    
+    }
+
+    std::cout << "Account Number: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "First Name: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Last Name: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Telephone: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Balance: " << line << std::endl;
+
+    infile.close();
+}

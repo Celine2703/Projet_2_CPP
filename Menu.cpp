@@ -65,9 +65,9 @@ void Menu::display_menu()
     case 4:
         Bank::Edit();
         break;
-    // case 5:
-    //     Delete();
-    //     break;
+    case 5:
+        Bank::Delete();
+        break;
     case 6:
         ShowAll();
         break;
@@ -113,7 +113,7 @@ void Menu::ShowAll() {
 
     int fichier = 0;
 
-    while(fichier < this->get_number_of_records())
+    while(this->get_number_of_records() >= 0 && fichier < this->get_number_of_records())
     {
         std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
         std::ifstream infile(filename);
