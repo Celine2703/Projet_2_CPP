@@ -110,12 +110,10 @@ void Menu::Show()
 {
     std::string account_number;
     account_number = demanderNombreEtVerifier("Enter Account Number: ");
-    std::cout << "Enter First Name: ";
     std::string firstname;
-    std::cin >> firstname;
-    std::cout << "Enter Last Name: ";
+    firstname = demanderStringEtVerifier("Enter First Name: ");
     std::string lastname;
-    std::cin >> lastname;
+    lastname = demanderStringEtVerifier("Enter Last Name: ");
     int fichier = 0;
 
     while(this->get_number_of_records() >= 0 && fichier < this->get_number_of_records())

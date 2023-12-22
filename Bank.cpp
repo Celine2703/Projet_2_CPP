@@ -83,11 +83,11 @@ void Bank::Edit() {
     std::getline(infile, line);
     std::cout << "Account Number: " << line << std::endl;
     std::string AccountNumber = line;
-    std::getline(infile, line);
-    std::cout << "First Name: " << line << std::endl;
     std::getline(infile, lastname);
-    std::cout << "Last Name: " << line << std::endl;
+    std::cout << "First Name: " << lastname << std::endl;
     std::getline(infile, firstname);
+    std::cout << "Last Name: " << firstname << std::endl;
+    std::getline(infile, line);
     std::cout << "Telephone: " << line << std::endl;
     std::getline(infile, line);
     std::cout << "Balance: " << line << std::endl;
@@ -133,6 +133,7 @@ void Bank::Delete() {
 
     if (!infile) {
         std::cerr << "Error opening file for reading." << std::endl;
+        std::cin.clear(); 
         return;
     }
 
