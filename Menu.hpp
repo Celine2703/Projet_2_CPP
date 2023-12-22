@@ -29,6 +29,7 @@ public:
     void ShowAll();
     void Search();
     std::string demanderNombreEtVerifier(std::string);
+    std::string demanderStringEtVerifier(std::string);
 };
 
 #endif

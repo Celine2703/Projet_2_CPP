@@ -225,17 +225,50 @@ void Menu::Search() {
 }
 
 std::string Menu::demanderNombreEtVerifier(std::string message) {
-
-    while (1)
-    {
+    while (true) {
         std::string saisie;
         std::cout << message;
-        std::cin >> saisie;
-
-        if (std::all_of(saisie.begin(), saisie.end(), ::isdigit))
-        {
-            return saisie;
+        if (std::getline(std::cin, saisie)) {
+            if (std::all_of(saisie.begin(), saisie.end(), ::isdigit)) {
+                return saisie;
+            }
+        } else {
+            if (std::cin.eof()) {
+                // Réinitialisation de cin en cas de Ctrl+D
+                std::cin.clear(); // Efface le drapeau EOF
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore le dernier caractère dans le buffer (EOF)
+                std::cout << "Entrée annulée. Veuillez réessayer.\n";
+            } else {
+                std::cerr << "Erreur de saisie. Réessayez.\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore le reste de la ligne
+            }
         }
     }
+}
 
+std::string Menu::demanderStringEtVerifier(std::string message) {
+    std::string saisie;
+
+    while (true) {
+        std::cout << message;
+        if (std::getline(std::cin, saisie)) {
+            // Vérifie si l'entrée n'est pas vide
+            if (!saisie.empty()) {
+                return saisie;
+            }
+        } else {
+            if (std::cin.eof()) {
+                // Ctrl+D pressé, réinitialise l'état de cin et ignore l'entrée actuelle
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Entrée annulée. Veuillez réessayer.\n";
+            } else {
+                // Erreur de saisie, réinitialise l'état de cin et ignore l'entrée actuelle
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Erreur de saisie. Veuillez réessayer.\n";
+            }
+        }
+    }
 }
