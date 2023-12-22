@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 class Bank
 {
@@ -30,7 +31,7 @@ public:
     int get_id_record();
 
     static Bank Add(int);
-    void Show();
+    static void Show();
     void Search();
     void Edit();
     void Delete();

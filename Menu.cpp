@@ -4,6 +4,7 @@
 Menu::Menu()
 {
     choice = 0;
+    number_of_records = 0;
 }
 
 Menu::~Menu() {}
@@ -50,10 +51,11 @@ void Menu::display_menu()
     {
     case 1:
         Bank::Add(number_of_records);
+        increment_number_of_record();
         break;
-    // case 2:
-    //     Show();
-    //     break;
+    case 2:
+        Show();
+        break;
     // case 3:
     //     Search();
     //     break;
@@ -70,4 +72,33 @@ void Menu::display_menu()
         std::cout << "Wrong choice" << std::endl;
         break;
     }
+}
+
+void Menu::Show() {
+
+    std::cout << "Enter Account Number: ";
+    int fichier;
+    std::cin >> fichier;
+    std::string filename = "record_" + std::to_string(fichier) + ".txt";
+    std::ifstream infile(filename);
+    std::cout << std::endl;
+
+    if (!infile) {
+        std::cerr << "Error opening file for reading." << std::endl;
+        return;
+    }
+
+    std::string line;
+    std::getline(infile, line);
+    std::cout << "Account Number: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "First Name: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Last Name: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Telephone: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Balance: " << line << std::endl;
+
+    infile.close();
 }

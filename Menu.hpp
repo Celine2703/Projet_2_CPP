@@ -19,6 +19,7 @@ public:
     void increment_number_of_record();
 
     void display_menu();
+    void Show();
 };
 
 #endif

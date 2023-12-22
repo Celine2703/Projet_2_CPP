@@ -78,7 +78,14 @@ int Bank::get_id_record()
 }
 
 Bank Bank::Add(int number_of_records) {
-    std::ofstream outfile("record.bank" + number_of_records, std::ios::binary | std::ios::app);
+    // Convertir le nombre d'enregistrements en une chaîne de caractères
+    std::string record_suffix = std::to_string(number_of_records);
+
+    // Créer le nom du fichier en ajoutant la chaîne de caractères au nom de base
+    std::string filename = "record_" + record_suffix + ".txt";
+
+    // Ouvrir le fichier en mode binaire
+    std::ofstream outfile(filename);
 
     if (!outfile) {
         std::cerr << "Error opening file for writing." << std::endl;
@@ -98,35 +105,17 @@ Bank Bank::Add(int number_of_records) {
     std::cout << "Enter Balance: ";
     std::cin >> bank.balance;
 
-    // Écriture de l'objet Bank actuel dans le fichier
-    outfile.write(reinterpret_cast<char *>(&bank), sizeof(Bank));
+    if(outfile.is_open()) {
+        outfile << bank.account_number << std::endl;
+        outfile << bank.firstname << std::endl;
+        outfile << bank.lastname << std::endl;
+        outfile << bank.telephone << std::endl;
+        outfile << bank.balance << std::endl;
+    } else {
+        std::cerr << "Error opening file for writing." << std::endl;
+    }
 
     outfile.close();
 
     return bank;
-}
-
-void Bank::Show() {
-    std::ifstream infile("record.bank", std::ios::binary);
-
-    if (!infile) {
-        std::cerr << "Error opening file for reading." << std::endl;
-        return;
-    }
-
-    Bank bank;  // Créez une instance locale de Bank
-
-    std::cout << "\n****Data from file****" << std::endl;
-
-    // Lecture de l'objet Bank actuel dans le fichier
-    while (infile.read(reinterpret_cast<char *>(&bank), sizeof(Bank))) {
-        std::cout << "Account Number: " << bank.account_number << std::endl;
-        std::cout << "First Name: " << bank.firstname << std::endl;
-        std::cout << "Last Name: " << bank.lastname << std::endl;
-        std::cout << "Telephone Number: " << bank.telephone << std::endl;
-        std::cout << "Balance: " << bank.balance << std::endl;
-        std::cout << std::endl;
-    }
-
-    infile.close();
 }

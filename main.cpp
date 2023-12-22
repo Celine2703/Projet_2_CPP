@@ -4,6 +4,9 @@
 int main()
 {
     Menu menu;
-    menu.display_menu();
+    while(1) {
+        menu.display_menu();
+        std::cout << "\n**************************************\n" << std::endl;
+    }
     return 0;
 }
