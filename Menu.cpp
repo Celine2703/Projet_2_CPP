@@ -1,5 +1,8 @@
 #include "Menu.hpp"
 #include "Bank.hpp"
+#include <filesystem>
+#include <dirent.h>
+
 
 Menu::Menu()
 {
@@ -34,6 +37,27 @@ void Menu::increment_number_of_record()
     ++number_of_records;
 }
 
+void Menu::Init() {
+    std::string path = "./bank_records/";
+    int compteur = 0;
+    DIR *dir;
+    struct dirent *ent;
+
+    if ((dir = opendir(path.c_str())) != NULL) {
+        while ((ent = readdir(dir)) != NULL) {
+            if (ent->d_type == DT_REG) {  // Vérifie si l'entrée est un fichier régulier
+                compteur++;
+            }
+        }
+        closedir(dir);
+    } else {
+        // Impossible d'ouvrir le répertoire
+        std::cerr << "Erreur: Impossible d'ouvrir le répertoire." << '\n';
+    }
+
+    this->set_number_of_records(compteur);
+}
+
 void Menu::display_menu()
 {
     std::cout << "***Acount Information System***" << std::endl;
@@ -50,6 +74,7 @@ void Menu::display_menu()
     std::cout << "Enter your choice: ";
     std::cin >> choice;
     std::cout << std::endl;
+
     switch (choice)
     {
     case 1:
@@ -59,9 +84,9 @@ void Menu::display_menu()
     case 2:
         Show();
         break;
-    // case 3:
-    //     Search();
-    //     break;
+    case 3:
+        Search();
+        break;
     case 4:
         Bank::Edit();
         break;
@@ -71,9 +96,10 @@ void Menu::display_menu()
     case 6:
         ShowAll();
         break;
-    // case 6:
-    //     std::cout << "Thank you for using our system" << std::endl;
-    //     break;
+    case 7:
+        std::cout << "Thank you for using our system" << std::endl;
+        exit(0);
+        break;
     default:
         std::cout << "Wrong choice" << std::endl;
         break;
@@ -82,7 +108,7 @@ void Menu::display_menu()
 
 void Menu::Show() {
 
-    std::cout << "Enter Account Number: ";
+    std::cout << "Enter File ID: ";
     int fichier;
     std::cin >> fichier;
     std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
@@ -140,4 +166,43 @@ void Menu::ShowAll() {
         infile.close();
         fichier++;
     }
+}
+
+
+void Menu::Search() {
+    std::cout << "Enter Account Number: ";
+    std::string account_number;
+    std::cin >> account_number;
+    int fichier = 0;
+
+    while(this->get_number_of_records() >= 0 && fichier < this->get_number_of_records())
+    {
+        std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
+        std::ifstream infile(filename);
+        std::cout << std::endl;
+
+        if (!infile) {
+            continue;
+        }
+
+        std::string line;
+        std::getline(infile, line);
+
+        if (line == account_number) {
+            std::cout << "Account Number: " << line << std::endl;
+            std::getline(infile, line);
+            std::cout << "First Name: " << line << std::endl;
+            std::getline(infile, line);
+            std::cout << "Last Name: " << line << std::endl;
+            std::getline(infile, line);
+            std::cout << "Telephone: " << line << std::endl;
+            std::getline(infile, line);
+            std::cout << "Balance: " << line << std::endl;
+        }
+
+        infile.close();
+        fichier++;
+
+    }
+
 }
