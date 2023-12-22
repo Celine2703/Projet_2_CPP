@@ -191,7 +191,8 @@ void Menu::ShowAll() {
 
 void Menu::Search() {
     std::string account_number;
-    account_number = demanderNombreEtVerifier("Enter Account Number: ");
+    std::cout << "Entrer un Account Number: "<< std::endl;
+    std::cin >> account_number;
     int fichier = 0;
 
     while(this->get_number_of_records() >= 0 && fichier < this->get_number_of_records())
