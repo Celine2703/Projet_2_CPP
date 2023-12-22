@@ -159,8 +159,11 @@ void Bank::Delete() {
     char choice;
     std::cin >> choice;
 
-    if(choice == 'y') {
+    if(choice == 'y' || choice == 'Y') {
         std::remove(filename.c_str());
         std::cout << "Record deleted successfully." << std::endl;
+    }
+    else {
+        std::cout << "File no deleted." << std::endl;
     }
 }

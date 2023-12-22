@@ -71,8 +71,8 @@ void Menu::display_menu()
     std::cout << "6-->Show all records" << std::endl;
     std::cout << "7-->Quit" << std::endl;
     std::cout << std::endl;
-    std::cout << "Enter your choice: ";
-    std::cin >> choice;
+
+    choice = atoi(demanderNombreEtVerifier("Enter your choice: ").c_str());
     std::cout << std::endl;
 
     switch (choice)
@@ -222,6 +222,22 @@ void Menu::Search() {
         infile.close();
         fichier++;
 
+    }
+
+}
+
+std::string Menu::demanderNombreEtVerifier(std::string message) {
+
+    while (1)
+    {
+        std::string saisie;
+        std::cout << message;
+        std::cin >> saisie;
+
+        if (std::all_of(saisie.begin(), saisie.end(), ::isdigit))
+        {
+            return saisie;
+        }
     }
 
 }

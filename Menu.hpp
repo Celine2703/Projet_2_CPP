@@ -3,6 +3,10 @@
 
 #include <iostream>
 #include <filesystem>
+#include <iostream>
+#include <string>
+#include <cctype>
+#include <algorithm>
 
 class Menu
 {
@@ -24,6 +28,7 @@ public:
     void Show();
     void ShowAll();
     void Search();
+    std::string demanderNombreEtVerifier(std::string);
 };
 
 #endif
