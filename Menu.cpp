@@ -45,13 +45,13 @@ void Menu::Init() {
 
     if ((dir = opendir(path.c_str())) != NULL) {
         while ((ent = readdir(dir)) != NULL) {
-            if (ent->d_type == DT_REG) {  // Vérifie si l'entrée est un fichier régulier
+            if (ent->d_type == DT_REG)
+            {
                 compteur++;
             }
         }
         closedir(dir);
     } else {
-        // Impossible d'ouvrir le répertoire
         std::cerr << "Erreur: Impossible d'ouvrir le répertoire." << '\n';
     }
 
@@ -106,33 +106,52 @@ void Menu::display_menu()
     }
 }
 
-void Menu::Show() {
+void Menu::Show() 
+{
+    std::cout << "Enter Account Number: ";
+    std::string account_number;
+    std::cin >> account_number;
+    std::cout << "Enter First Name: ";
+    std::string firstname;
+    std::cin >> firstname;
+    std::cout << "Enter Last Name: ";
+    std::string lastname;
+    std::cin >> lastname;
+    int fichier = 0;
 
-    std::cout << "Enter File ID: ";
-    int fichier;
-    std::cin >> fichier;
-    std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
-    std::ifstream infile(filename);
-    std::cout << std::endl;
+    while(this->get_number_of_records() >= 0 && fichier < this->get_number_of_records())
+    {
+        std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
+        std::ifstream infile(filename);
+        std::cout << std::endl;
 
-    if (!infile) {
-        std::cerr << "Error opening file for reading." << std::endl;
-        return;
+        if (!infile) {
+            continue;
+        }
+
+        std::string Accountline;
+        std::getline(infile, Accountline);
+        std::string firstnameLine;
+        std::getline(infile, firstnameLine);
+        std::string LastnameLine;
+        std::getline(infile, LastnameLine);
+        std::string telephone;
+        std::getline(infile, telephone);
+        std::string balance;
+        std::getline(infile, balance);
+
+        if (Accountline == account_number && firstname == firstnameLine 
+                && LastnameLine == lastname) {
+            std::cout << "Balance: " << balance << std::endl;
+            infile.close();
+            return ;
+        }
+
+        infile.close();
+        fichier++;
+
     }
-
-    std::string line;
-    std::getline(infile, line);
-    std::cout << "Account Number: " << line << std::endl;
-    std::getline(infile, line);
-    std::cout << "First Name: " << line << std::endl;
-    std::getline(infile, line);
-    std::cout << "Last Name: " << line << std::endl;
-    std::getline(infile, line);
-    std::cout << "Telephone: " << line << std::endl;
-    std::getline(infile, line);
-    std::cout << "Balance: " << line << std::endl;
-
-    infile.close();
+    std::cout << "No Account Found\n" << std::endl;
 }
 
 void Menu::ShowAll() {
@@ -148,7 +167,7 @@ void Menu::ShowAll() {
             continue;
         }
 
-        std::cout << "*** File Name: " << filename << " ***\n" << std::endl;
+        std::cout << "*** File Name: " << "record_" + std::to_string(fichier) + ".txt" << " ***\n" << std::endl;
 
         std::string line;
         std::getline(infile, line);
