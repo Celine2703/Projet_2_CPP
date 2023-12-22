@@ -31,9 +31,8 @@ public:
     int get_id_record();
 
     static Bank Add(int);
-    static void Show();
-    void Search();
-    void Edit();
+    static void Search();
+    static void Edit();
     void Delete();
 };
 

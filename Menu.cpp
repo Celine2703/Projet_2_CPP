@@ -37,13 +37,16 @@ void Menu::increment_number_of_record()
 void Menu::display_menu()
 {
     std::cout << "***Acount Information System***" << std::endl;
+    std::cout << std::endl;
     std::cout << "Select one option below" << std::endl;
     std::cout << "1-->Add record to file" << std::endl;
     std::cout << "2-->Show record from file" << std::endl;
     std::cout << "3-->Search record from file" << std::endl;
     std::cout << "4-->Update record" << std::endl;
     std::cout << "5-->Delete record" << std::endl;
-    std::cout << "6-->Quit" << std::endl;
+    std::cout << "6-->Show all records" << std::endl;
+    std::cout << "7-->Quit" << std::endl;
+    std::cout << std::endl;
     std::cout << "Enter your choice: ";
     std::cin >> choice;
     std::cout << std::endl;
@@ -59,12 +62,15 @@ void Menu::display_menu()
     // case 3:
     //     Search();
     //     break;
-    // case 4:
-    //     Edit();
-    //     break;
+    case 4:
+        Bank::Edit();
+        break;
     // case 5:
     //     Delete();
     //     break;
+    case 6:
+        ShowAll();
+        break;
     // case 6:
     //     std::cout << "Thank you for using our system" << std::endl;
     //     break;
@@ -79,7 +85,7 @@ void Menu::Show() {
     std::cout << "Enter Account Number: ";
     int fichier;
     std::cin >> fichier;
-    std::string filename = "record_" + std::to_string(fichier) + ".txt";
+    std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
     std::ifstream infile(filename);
     std::cout << std::endl;
 
@@ -101,4 +107,37 @@ void Menu::Show() {
     std::cout << "Balance: " << line << std::endl;
 
     infile.close();
+}
+
+void Menu::ShowAll() {
+
+    int fichier = 0;
+
+    while(fichier < this->get_number_of_records())
+    {
+        std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
+        std::ifstream infile(filename);
+
+         if (!infile) {
+            continue;
+        }
+
+        std::cout << "*** File Name: " << filename << " ***\n" << std::endl;
+
+        std::string line;
+        std::getline(infile, line);
+        std::cout << "Account Number: " << line << std::endl;
+        std::getline(infile, line);
+        std::cout << "First Name: " << line << std::endl;
+        std::getline(infile, line);
+        std::cout << "Last Name: " << line << std::endl;
+        std::getline(infile, line);
+        std::cout << "Telephone: " << line << std::endl;
+        std::getline(infile, line);
+        std::cout << "Balance: " << line << std::endl;
+        std::cout << std::endl;
+
+        infile.close();
+        fichier++;
+    }
 }

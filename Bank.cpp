@@ -82,7 +82,7 @@ Bank Bank::Add(int number_of_records) {
     std::string record_suffix = std::to_string(number_of_records);
 
     // Créer le nom du fichier en ajoutant la chaîne de caractères au nom de base
-    std::string filename = "record_" + record_suffix + ".txt";
+    std::string filename = "./bank_records/record_" + record_suffix + ".txt";
 
     // Ouvrir le fichier en mode binaire
     std::ofstream outfile(filename);
@@ -118,4 +118,67 @@ Bank Bank::Add(int number_of_records) {
     outfile.close();
 
     return bank;
+}
+
+void Bank::Edit() {
+    std::cout << "Enter Account Number: ";
+    int fichier;
+    std::cin >> fichier;
+    std::string filename = "./bank_records/record_" + std::to_string(fichier) + ".txt";
+    std::ifstream infile(filename);
+    std::cout << std::endl;
+
+    if (!infile) {
+        std::cerr << "Error opening file for reading." << std::endl;
+        return;
+    }
+
+    std::string line;
+    std::getline(infile, line);
+    std::cout << "Account Number: " << line << std::endl;
+    std::string AccountNumber = line;
+    std::getline(infile, line);
+    std::cout << "First Name: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Last Name: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Telephone: " << line << std::endl;
+    std::getline(infile, line);
+    std::cout << "Balance: " << line << std::endl;
+
+    infile.close();
+
+    std::cout << "\n\nEnter New Data: " << std::endl;
+
+    std::cout << "Enter First Name: ";
+    std::string firstname;
+    std::cin >> firstname;
+    std::cout << "Enter Last Name: ";
+    std::string lastname;
+    std::cin >> lastname;
+    std::cout << "Enter Telephone Number: ";
+    int telephone;
+    std::cin >> telephone;
+    std::cout << "Enter Balance: ";
+    int balance;
+    std::cin >> balance;
+
+    std::ofstream outfile(filename);
+
+    if (!outfile) {
+        std::cerr << "Error opening file for writing." << std::endl;
+        return;
+    }
+
+    if(outfile.is_open()) {
+        outfile << AccountNumber << std::endl;
+        outfile << firstname << std::endl;
+        outfile << lastname << std::endl;
+        outfile << telephone << std::endl;
+        outfile << balance << std::endl;
+    } else {
+        std::cerr << "Error opening file for writing." << std::endl;
+    }
+
+    outfile.close();
 }

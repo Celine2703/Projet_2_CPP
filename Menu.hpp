@@ -20,6 +20,7 @@ public:
 
     void display_menu();
     void Show();
+    void ShowAll();
 };
 
 #endif
